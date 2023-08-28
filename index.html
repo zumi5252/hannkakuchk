@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注意事項</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .halfwidth {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">半角文字数チェック</h2>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">注意事項</h2>
+                    <p>このウェブページでは、入力された文字列の半角文字数をカウントする機能を提供しています。</p>
+                    <p>以下の注意事項をご確認の上、ご利用ください。</p>
+                    <ul>
+                        <li>入力された文字列の半角文字数のカウントのみを行います。</li>
+                        <li>個人利用、商用利用無料です。</li>
+                        <li>動作にはJavaScriptが必要です。ブラウザのJavaScript設定を有効にしてください。</li>
+                    </ul>
+                    <p>ウェブページの利用に関するご質問やご意見がありましたら、お気軽にお問い合わせください。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">半角文字数カウント</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="text">文字列を入力してください:</label>
+                        <textarea class="form-control" id="text" rows="4"></textarea>
+                    </div>
+                    <p id="count">半角文字数: 0</p>
+                    <p id="inputText">入力した文字列: </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const textarea = document.getElementById('text');
+    const countDisplay = document.getElementById('count');
+    const inputTextDisplay = document.getElementById('inputText');
+
+    textarea.addEventListener('input', function () {
+        const text = textarea.value;
+        const halfWidthCount = countHalfWidthCharacters(text);
+
+        countDisplay.textContent = `半角文字数: ${halfWidthCount}`;
+        
+        // Apply class to half-width characters
+        const formattedText = text
+            .split('')
+            .map(char => (char >= '\u0020' && char <= '\u007E') ? `<span class="halfwidth">${char}</span>` : char)
+            .join('');
+        inputTextDisplay.innerHTML = `入力した文字列: ${formattedText}`;
+    });
+
+    function countHalfWidthCharacters(str) {
+        return str.split('').reduce((count, char) => {
+            // Half-width characters are in the Unicode range U+0020 to U+007E
+            if (char >= '\u0020' && char <= '\u007E') {
+                return count + 1;
+            }
+            return count;
+        }, 0);
+    }
+</script>
+</body>
+</html>
